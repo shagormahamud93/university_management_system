@@ -4,6 +4,7 @@
 #include "course_manager.h"
 #include "attendance_manager.h"
 #include "department_manager.h"
+#include "cr_manager.h"
 #include <string.h>
 
 void menu()
@@ -44,6 +45,12 @@ void menu()
     printf("23. Show All Departments\n");
     printf("24. Delete Department\n");
 
+    printf("\n===== CR Management =====\n");
+    printf("25. Assign CR\n");
+    printf("26. Remove CR\n");
+    printf("27. View CR\n");
+    printf("27. Show All CR\n");
+
     printf("0. Exit\n");
     printf("Choose an option: ");
 }
@@ -52,6 +59,7 @@ int main()
 {
     initStudentManager();
     initCourseManager();
+    initCRManager();
     AttendanceManager attendanceManager = {0};
     DepartmentManager manager = {0};
     int choice;
@@ -298,6 +306,36 @@ int main()
             printf("Enter Department ID to delete: ");
             scanf("%d", &departmentID);
             deleteDepartment(&manager, departmentID);
+            break;
+
+        case 25: // Assign CR
+            char courseName[100];
+            printf("Enter Course Name: ");
+            fgets(courseName, sizeof(courseName), stdin);
+            courseName[strcspn(courseName, "\n")] = 0; // Remove newline
+            printf("Enter Student ID to assign as CR: ");
+            scanf("%d", &studentId);
+            getchar(); // remove newline
+            assignCR(courseName, studentId);
+            break;
+
+        case 26: // Remove CR
+                 // Remove CR
+            printf("Enter Course Name to remove CR from: ");
+            fgets(courseName, sizeof(courseName), stdin);
+            courseName[strcspn(courseName, "\n")] = 0;
+            removeCR(courseName);
+            break;
+
+        case 27: // View CR
+            printf("Enter Course Name to view CR: ");
+            fgets(courseName, sizeof(courseName), stdin);
+            courseName[strcspn(courseName, "\n")] = 0;
+            viewCR(courseName);
+            break;
+
+        case 28: // Show All CRs
+            showAllCRs();
             break;
 
         case 0: // Exit
