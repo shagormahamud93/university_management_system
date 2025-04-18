@@ -17,5 +17,8 @@ void deleteStudent(int id);
 void updateStudent(int id, const char *name, const char *department);
 int studentExists(int studentId);
 
+#include "cr_manager.h"   // for CRVote
+
+void conductCRSelection(int courseId, int studentIds[], int totalStudents);
 
 #endif

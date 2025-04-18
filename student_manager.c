@@ -1,4 +1,6 @@
 #include "student_manager.h"
+#include "course_manager.h"   // courseExists
+#include "cr_manager.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -77,4 +79,54 @@ int studentExists(int studentId) {
         }
     }
     return 0; // not found
+}
+
+
+
+void conductCRSelection(int courseId, int studentIds[], int totalStudents) {
+    if (!courseExists(courseId)) {
+        printf("Course does not exist.\n");
+        return;
+    }
+
+    CRVote votes[MAX_STUDENTS];
+
+    // Initialize votes
+    for (int i = 0; i < totalStudents; i++) {
+        votes[i].studentId = studentIds[i];
+        votes[i].votes = 0;
+    }
+
+    printf("\n=== CR Voting Process Started ===\n");
+
+    // প্রত্যেক student ভোট দিবে
+    for (int i = 0; i < totalStudents; i++) {
+        int voterId = studentIds[i];
+
+        printf("\nStudent ID %d is voting:\n", voterId);
+        printf("Enter the ID of the student you want to vote for: ");
+        int voteFor;
+        scanf("%d", &voteFor);
+
+        // voteFor বৈধ কিনা চেক করো
+        int found = 0;
+        for (int j = 0; j < totalStudents; j++) {
+            if (votes[j].studentId == voteFor) {
+                votes[j].votes++;
+                found = 1;
+                break;
+            }
+        }
+
+        if (!found) {
+            printf("Invalid vote! Student ID %d not in candidate list.\n", voteFor);
+        }
+    }
+
+    // সর্বোচ্চ ভোট পাওয়া student কে নির্বাচন করছে
+    int selectedCRId = findCR(votes, totalStudents);
+    printf("\nCR selected for course %d: Student ID %d\n", courseId, selectedCRId);
+
+    // CR অ্যাসাইন করো
+    assignCRToCourse(courseId, selectedCRId);
 }
