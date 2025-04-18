@@ -15,5 +15,7 @@ void showAllStudents();
 Student* searchStudent(int id);
 void deleteStudent(int id);
 void updateStudent(int id, const char *name, const char *department);
+int studentExists(int studentId);
+
 
 #endif

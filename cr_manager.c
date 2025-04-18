@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "cr_manager.h"
 #include "course_manager.h"  // Make sure this has courseExists()
+#include "student_manager.h"
 
 #define MAX_CRS 100
 
@@ -40,6 +41,11 @@ void assignCRToCourse(int courseId, int crStudentId) {
 void addCR(int studentId, int courseId) {
     if (!courseExists(courseId)) {
         printf("Error: Course ID %d does not exist. Please create the course first.\n", courseId);
+        return;
+    }
+
+    if (!studentExists(studentId)) {
+        printf("Error: Student ID %d does not exist. Please create the student first.\n", studentId);
         return;
     }
 

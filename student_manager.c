@@ -69,3 +69,12 @@ void updateStudent(int id, const char *name, const char *department) {
         printf("Student not found.\n");
     }
 }
+
+int studentExists(int studentId) {
+    for (int i = 0; i < studentCount; i++) {
+        if (students[i].id == studentId) {
+            return 1; // exists
+        }
+    }
+    return 0; // not found
+}
