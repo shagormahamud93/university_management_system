@@ -192,3 +192,12 @@ void initCourseManager() {
     }
     printf("University Management System.\n");
 }
+
+int courseExists(int courseId) {
+    for (int i = 0; i < courseCount; i++) {
+        if (courses[i].id == courseId) {  // Use 'courses' instead of 'courseList'
+            return 1;  // Course exists
+        }
+    }
+    return 0;  // Course does not exist
+}

@@ -46,10 +46,9 @@ void menu()
     printf("24. Delete Department\n");
 
     printf("\n===== CR Management =====\n");
-    printf("25. Assign CR\n");
-    printf("26. Remove CR\n");
-    printf("27. View CR\n");
-    printf("27. Show All CR\n");
+    printf("25. Add CR\n");
+    printf("26. Show All CRs\n");
+    printf("27. Delete CR\n");
 
     printf("0. Exit\n");
     printf("Choose an option: ");
@@ -308,34 +307,22 @@ int main()
             deleteDepartment(&manager, departmentID);
             break;
 
-        case 25: // Assign CR
-            char courseName[100];
-            printf("Enter Course Name: ");
-            fgets(courseName, sizeof(courseName), stdin);
-            courseName[strcspn(courseName, "\n")] = 0; // Remove newline
-            printf("Enter Student ID to assign as CR: ");
+        case 25: // Add CR
+            printf("Enter Student ID to make CR: ");
             scanf("%d", &studentId);
-            getchar(); // remove newline
-            assignCR(courseName, studentId);
+            printf("Enter Course ID: ");
+            scanf("%d", &courseId);
+            addCR(studentId, courseId);
             break;
 
-        case 26: // Remove CR
-                 // Remove CR
-            printf("Enter Course Name to remove CR from: ");
-            fgets(courseName, sizeof(courseName), stdin);
-            courseName[strcspn(courseName, "\n")] = 0;
-            removeCR(courseName);
-            break;
-
-        case 27: // View CR
-            printf("Enter Course Name to view CR: ");
-            fgets(courseName, sizeof(courseName), stdin);
-            courseName[strcspn(courseName, "\n")] = 0;
-            viewCR(courseName);
-            break;
-
-        case 28: // Show All CRs
+        case 26: // Show All CRs
             showAllCRs();
+            break;
+
+        case 27: // Delete CR
+            printf("Enter Course ID to remove CR: ");
+            scanf("%d", &courseId);
+            deleteCR(courseId);
             break;
 
         case 0: // Exit

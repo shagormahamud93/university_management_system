@@ -17,5 +17,6 @@ void updateCourseByID(int id, const char* title, const char* description, int du
 void assignStudentToCourse(int studentId, int courseId);
 void showStudentsInCourse(int courseId);
 void removeStudentFromCourse(int studentId, int courseId);
+int courseExists(int courseId);
 
 #endif // COURSE_MANAGER_H

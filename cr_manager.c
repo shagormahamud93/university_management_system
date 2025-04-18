@@ -1,84 +1,85 @@
 
-#include "cr_manager.h"
 #include <stdio.h>
-#include <string.h>
+#include "cr_manager.h"
+#include "course_manager.h"  // Make sure this has courseExists()
 
-static CR crList[MAX_COURSES];
-static int crCount = 0;
+#define MAX_CRS 100
+
+CR crList[MAX_CRS];
+int crCount = 0;
 
 void initCRManager() {
     crCount = 0;
 }
 
-void assignCR(const char *courseName, int studentId) {
-    Student* student = searchStudent(studentId);
-    if (student == NULL) {
-        printf("Student with ID %d not found.\n", studentId);
+void voteForCR(CRVote votes[], int numStudents) {
+    for (int i = 0; i < numStudents; i++) {
+        printf("Enter student ID for student %d: ", i + 1);
+        scanf("%d", &votes[i].studentId);
+        printf("Enter number of votes received: ");
+        scanf("%d", &votes[i].votes);
+    }
+}
+
+int findCR(CRVote votes[], int numStudents) {
+    int maxVotes = -1;
+    int crId = -1;
+    for (int i = 0; i < numStudents; i++) {
+        if (votes[i].votes > maxVotes) {
+            maxVotes = votes[i].votes;
+            crId = votes[i].studentId;
+        }
+    }
+    return crId;
+}
+
+void assignCRToCourse(int courseId, int crStudentId) {
+    addCR(crStudentId, courseId);
+}
+
+void addCR(int studentId, int courseId) {
+    if (!courseExists(courseId)) {
+        printf("Error: Course ID %d does not exist. Please create the course first.\n", courseId);
         return;
     }
 
-    // Check if CR already assigned to the course
-    for (int i = 0; i < crCount; i++) {
-        if (strcmp(crList[i].courseName, courseName) == 0) {
-            crList[i].studentId = studentId;
-            printf("CR updated for course '%s'.\n", courseName);
-            return;
-        }
-    }
-
-    // Add new CR assignment
-    if (crCount < MAX_COURSES) {
-        strcpy(crList[crCount].courseName, courseName);
+    if (crCount < MAX_CRS) {
         crList[crCount].studentId = studentId;
+        crList[crCount].courseId = courseId;
         crCount++;
-        printf("CR assigned successfully for course '%s'.\n", courseName);
+        printf("CR added successfully.\n");
     } else {
         printf("CR list is full.\n");
     }
 }
 
-void removeCR(const char *courseName) {
+void showAllCRs() {
+    if (crCount == 0) {
+        printf("No CRs assigned yet.\n");
+        return;
+    }
+
+    printf("\nAll Course CRs:\n");
     for (int i = 0; i < crCount; i++) {
-        if (strcmp(crList[i].courseName, courseName) == 0) {
+        printf("Course ID: %d | Student ID (CR): %d\n", crList[i].courseId, crList[i].studentId);
+    }
+}
+
+void deleteCR(int courseId) {
+    int found = 0;
+    for (int i = 0; i < crCount; i++) {
+        if (crList[i].courseId == courseId) {
             for (int j = i; j < crCount - 1; j++) {
                 crList[j] = crList[j + 1];
             }
             crCount--;
-            printf("CR removed from course '%s'.\n", courseName);
-            return;
+            found = 1;
+            printf("CR for course %d deleted.\n", courseId);
+            break;
         }
     }
-    printf("CR not found for course '%s'.\n", courseName);
-}
-
-void viewCR(const char *courseName) {
-    for (int i = 0; i < crCount; i++) {
-        if (strcmp(crList[i].courseName, courseName) == 0) {
-            Student* student = searchStudent(crList[i].studentId);
-            if (student != NULL) {
-                printf("Course: %s\nCR: %s (ID: %d, Department: %s)\n",
-                       courseName, student->name, student->id, student->department);
-            } else {
-                printf("CR student not found.\n");
-            }
-            return;
-        }
-    }
-    printf("No CR assigned for course '%s'.\n", courseName);
-}
-
-void showAllCRs() {
-    if (crCount == 0) {
-        printf("No CRs assigned.\n");
-        return;
-    }
-
-    printf("\n===== All CRs =====\n");
-    for (int i = 0; i < crCount; i++) {
-        Student* student = searchStudent(crList[i].studentId);
-        if (student != NULL) {
-            printf("Course: %s -> CR: %s (ID: %d, Dept: %s)\n",
-                   crList[i].courseName, student->name, student->id, student->department);
-        }
+    if (!found) {
+        printf("No CR found for course %d.\n", courseId);
     }
 }
+
