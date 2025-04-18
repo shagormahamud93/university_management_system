@@ -1,10 +1,8 @@
-// department_manager.h
 
 #ifndef DEPARTMENT_MANAGER_H
 #define DEPARTMENT_MANAGER_H
 
 #include <stdio.h>
-#include <string.h>
 
 #define MAX_DEPARTMENTS 100
 
@@ -17,7 +15,7 @@ typedef struct {
 // DepartmentManager structure
 typedef struct {
     Department departments[MAX_DEPARTMENTS];
-    int departmentCount;
+    int departmentCount;  // This keeps track of the number of departments
 } DepartmentManager;
 
 // Function prototypes

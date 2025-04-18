@@ -1,10 +1,16 @@
-// department_manager.c
-
 #include "department_manager.h"
 #include <stdio.h>
 #include <string.h>
 
 void addDepartment(DepartmentManager* manager, int departmentID, const char* name) {
+    // Check if department already exists
+    for (int i = 0; i < manager->departmentCount; i++) {
+        if (manager->departments[i].departmentID == departmentID) {
+            printf("Department ID %d already exists.\n", departmentID);
+            return;
+        }
+    }
+
     if (manager->departmentCount < MAX_DEPARTMENTS) {
         Department* department = &manager->departments[manager->departmentCount++];
         department->departmentID = departmentID;

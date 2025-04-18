@@ -99,7 +99,7 @@ void conductCRSelection(int courseId, int studentIds[], int totalStudents) {
 
     printf("\n=== CR Voting Process Started ===\n");
 
-    // প্রত্যেক student ভোট দিবে
+    // Every student will vote
     for (int i = 0; i < totalStudents; i++) {
         int voterId = studentIds[i];
 
@@ -108,7 +108,7 @@ void conductCRSelection(int courseId, int studentIds[], int totalStudents) {
         int voteFor;
         scanf("%d", &voteFor);
 
-        // voteFor বৈধ কিনা চেক করো
+        // Check if voteFor is valid.
         int found = 0;
         for (int j = 0; j < totalStudents; j++) {
             if (votes[j].studentId == voteFor) {
@@ -123,10 +123,10 @@ void conductCRSelection(int courseId, int studentIds[], int totalStudents) {
         }
     }
 
-    // সর্বোচ্চ ভোট পাওয়া student কে নির্বাচন করছে
+    // The student with the highest number of votes is selected
     int selectedCRId = findCR(votes, totalStudents);
     printf("\nCR selected for course %d: Student ID %d\n", courseId, selectedCRId);
 
-    // CR অ্যাসাইন করো
+    // Assign CR
     assignCRToCourse(courseId, selectedCRId);
 }

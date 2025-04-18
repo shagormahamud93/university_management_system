@@ -1,5 +1,4 @@
 
-
 #include <stdio.h>
 #include <string.h>
 #include "student_manager.h"
@@ -99,8 +98,12 @@ int main()
             deleteDepartment(&manager, departmentID);
             break;
 
-        // Course Management
         case 4:
+            if (manager.departmentCount == 0)
+            {
+                printf("No departments found. Please add a department before adding a course.\n");
+                break;
+            }
             printf("Enter Course ID: ");
             scanf("%d", &id);
             getchar();
@@ -114,6 +117,7 @@ int main()
             scanf("%d", &duration);
             addCourse(id, title, description, duration);
             break;
+
         case 5:
             showAllCourses();
             break;
@@ -294,12 +298,14 @@ int main()
                 scanf("%d", &courseId);
                 printf("How many students are enrolled in this course? ");
                 scanf("%d", &total);
-                if (total <= 0 || total > MAX_STUDENTS) {
+                if (total <= 0 || total > MAX_STUDENTS)
+                {
                     printf("Invalid number of students.\n");
                     break;
                 }
                 int studentIds[total];
-                for (int i = 0; i < total; i++) {
+                for (int i = 0; i < total; i++)
+                {
                     printf("Enter enrolled student #%d ID: ", i + 1);
                     scanf("%d", &studentIds[i]);
                 }
